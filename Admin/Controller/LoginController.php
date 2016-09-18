@@ -5,26 +5,41 @@ class LoginController {
     private $username;
     private $password;
     private $email;
-    private $DB ;
-    
+    private $DB;
+
     public function __construct() {
         $this->DB = new lib\DataBase();
     }
+
+    public function isLogin($role) {
+        @session_start();
+        if (isset($_SESSION['user'])) {
+            $user = $_SESSION['user'];
+            if ($user['role'] == $role) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public function CheckLogin($info) {
         $result = $this->CheckUser($info);
-        
+
         if (empty($result)) {
             return false;
         }
         session_start();
         $_SESSION['user'] = $result[0];
-        return true;
+        return $result[0];
     }
 
     private function CheckUser(array $data) {
         $password = $this->CreatePassword($data);
         $sql = sprintf("select * from %s  where username='%s' "
-                        . "and email = '%s' and password='%s'", 'users', $data['username'], $data['email'], $password);
+                . "and email = '%s' and password='%s'", 'users', $data['username'], $data['email'], $password);
         $user = $this->DB->query($sql);
         return $user;
     }
@@ -67,21 +82,16 @@ class LoginController {
         return $password;
     }
 
-    private function CreateUser(array $input) {
+    public function CreateUser(array $input) {
         $secure = $this->SaltPassword($input);
         $data['username'] = $input['username'];
-        $data['username_canonical'] = $input['username'];
         $data['password'] = $secure['password'];
         $data['email'] = $input['email'];
-        $data['email_canonical'] = $input['email'];
-        $data['salt'] = $secure['salt'];
-        $data['roles'] = $input['role'];
-
-        $result = $this->DB()->getTable($input['table'])->insert($data);
+        $data['role'] = $input['role'];
+        $defaultController = new DefaultController();
+        $result = $defaultController->insert('users', $data);
         return $result;
     }
-
-    
 
     private function forgetPassword(array $data) {
         $user = $this->DB()->query(sprintf("select c.id,c.username,c.email from %s c where c.username='%s' and c.email='%s'", $data['table'], $data['username'], $data['email']));
@@ -89,13 +99,13 @@ class LoginController {
             $response['msg'] = "کاربری یافت نشد";
             return $response;
         }
-        $data['password'] =rand(0, 123456789);
+        $data['password'] = rand(0, 123456789);
         $password = $this->CreatePassword($data);
         $update['id'] = $user[0]['id'];
         $update['password'] = $password;
         $result = $this->DB()->getTable($data['table'])->update($update);
-        mail($user['email'], "تغییر رمز عبور", "رمز شما با موقیت تغییر یافت رمز عبور جدید : ".$data['password']);
-        $response['msg'] = "رمز عبور تغییر یافت و برای شما ارسال شد لطفا ایمیل خود را بررسی نمائید".$data['password'];
+        mail($user['email'], "تغییر رمز عبور", "رمز شما با موقیت تغییر یافت رمز عبور جدید : " . $data['password']);
+        $response['msg'] = "رمز عبور تغییر یافت و برای شما ارسال شد لطفا ایمیل خود را بررسی نمائید" . $data['password'];
         return $response;
     }
 

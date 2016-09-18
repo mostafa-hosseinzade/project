@@ -1,4 +1,17 @@
 <?php
+require_once '../Admin/Controller/LoginController.php';
+require_once '../Admin/lib/DB.php';
+$loginController = new LoginController();
+@session_start();
+//Check User Is Login if is login redirect
+if (isset($_SESSION['user'])) {
+    if ($_SESSION['user']['role'] == 'user') {
+        header('Location: /project/User');
+    } else if ($_SESSION['user']['role'] == 'admin') {
+        header('Location:/project/Admin/views/users');
+    }
+}
+//send data for login
 if ($_POST) {
     $info = $_POST;
     if (empty($info)) {
@@ -7,13 +20,16 @@ if ($_POST) {
     if (empty($info['username']) || empty($info['email']) || empty($info['password'])) {
         $data['msg'] = "مشکل در اطلاعات ارسال شده";
     }
-    require_once '../Admin/lib/DB.php';
-    require_once '../Admin/Controller/LoginController.php';
-    $loginController = new LoginController();
+
+
     $result = $loginController->CheckLogin($info);
-    if($result == true){
-        header('Location: /project/Admin/views/users');
-    }else{
+    if (!empty($result)) {
+        if ($result['role'] == 'admin') {
+            header('Location: /project/Admin/views/users');
+        } else {
+            header('Location: /project/User');
+        }
+    } else {
         $msg = "کاربری با این اطلاعات یافت نشد";
     }
 }
@@ -25,7 +41,7 @@ if ($_POST) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Login Page</title>
+        <title>فرم ورود</title>
 
         <!-- Bootstrap -->
         <link href="../bundles/css/bootstrap.rtl.css" rel="stylesheet">
@@ -38,15 +54,16 @@ if ($_POST) {
         <![endif]-->
     </head>
     <body>
+        <h2><a class="btn btn-info" href="/project" style="border-radius:  0px;font-size: 0.7em;margin-right: 10px"><span class="glyphicon glyphicon-forward"></span> <span>بازگشت</span></a></h2>
         <div class="container">
             <div class="col-lg-4 col-md-4 hidden-xs hidden-sm">
 
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <h3><?php if(isset($msg)) echo $msg; ?></h3>
+                    <h3><?php if (isset($msg)) echo $msg; ?></h3>
                     <form method="post" style="text-align: center;margin-top: 40px;">
-                        <h2>Login Form</h2>
+                        <h2>فرم ورود</h2>
                         <input type="text" name="username" placeholder="User Name"  class="form-control"><br>
                         <input type="text" name="email" placeholder="Email"  class="form-control"><br/>
                         <input type="text" name="password" placeholder="Password"  class="form-control">

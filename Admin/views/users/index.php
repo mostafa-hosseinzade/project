@@ -14,7 +14,7 @@ if ($_POST) {
         $msg = "اطلاعات با موفقیت حذف شد";
     } else {
         $data = $_POST;
-        $createPassword  = new LoginController();
+        $createPassword = new LoginController();
         $password = $createPassword->SaltPassword($data);
         $data['password'] = $password['password'];
         $defaulController->insert('users', $data);
@@ -40,6 +40,7 @@ $users = $defaulController->findAll('users');
     <th>Address</th>
     <th>Phone</th>
     <th>وضعیت</th>
+    <th>نوع کاربر</th>
     <th>action</th>
 </thead>
 <tbody>
@@ -56,6 +57,13 @@ $users = $defaulController->findAll('users');
                     <span style="color: green">فعال</span>
                 <?php else: ?>
                     <span style="color: red">غیر فعال</span>
+                <?php endif; ?>
+            </td>
+            <td>
+                <?php if ($value['role'] == 'admin'): ?>
+                    <span >مدیریت</span>
+                <?php else: ?>
+                    <span >کاربر عادی</span>
                 <?php endif; ?>
             </td>
             <td>
@@ -132,6 +140,13 @@ $users = $defaulController->findAll('users');
                                         <option value="0" <?php if ($value['enable'] == 0) echo 'selected'; ?>>Disable</option>
                                     </select>
                                 </div>
+                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                    <label>سطح دسترسی : </label>
+                                    <select name="enable" class="form-control">
+                                        <option value="user" <?php if ($value['role'] == 'user') echo 'selected'; ?>>کاربر عادی</option>
+                                        <option value="admin" <?php if ($value['role'] == 'admin') echo 'selected'; ?> >مدیریت</option>
+                                    </select>
+                                </div>
                             </div>
 
                         </div>
@@ -201,6 +216,13 @@ $users = $defaulController->findAll('users');
                                 <select name="enable" class="form-control">
                                     <option value="1" >enable</option>
                                     <option value="0" >Disable</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                <label>سطح دسترسی : </label>
+                                <select name="enable" class="form-control">
+                                    <option value="user" >کاربر عادی</option>
+                                    <option value="admin" >مدیریت</option>
                                 </select>
                             </div>
                         </div>
