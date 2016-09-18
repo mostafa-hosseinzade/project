@@ -134,7 +134,6 @@ $users = $defaulController->findAll('contentcategory');
 <th>Id</th>
 <th>title</th>
 <th>describtion</th>
-<th>دسته بندی</th>
 <th>کاربر</th>
 <th>وضعیت</th>
 <th>action</th>

@@ -32,4 +32,8 @@ class DefaultController {
         $db = new lib\DBTable($table);
         return $db->insert($data);
     }
+    
+    public function DB($table) {
+        return new lib\DBTable($table);
+    }
 }
