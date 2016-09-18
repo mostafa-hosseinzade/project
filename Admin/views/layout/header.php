@@ -45,7 +45,7 @@ if($check == false){
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Project</a>
+                    <a class="navbar-brand" href="/project">Project</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->

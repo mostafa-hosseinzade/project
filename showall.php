@@ -1,119 +1,122 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <!-- Site made with Mobirise Website Builder v2.4.1, http://mobirise.com -->
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="Mobirise v2.4.1, mobirise.com">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
-  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/mobirise/css/style.css">
-  <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
-  
-  
-</head>
-<body>
-<section class="engine"><a rel="nofollow" href="http://mobirise.com">Mobirise landing page builder</a></section>
-<section class="mbr-navbar mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--transparent mbr-navbar--sticky mbr-navbar--auto-collapse" id="menu-0">
-    <div class="mbr-navbar__section mbr-section">
-        <div class="mbr-section__container container">
-            <div class="mbr-navbar__container">
-                <div class="mbr-navbar__column mbr-navbar__column--s mbr-navbar__brand">
-                    <span class="mbr-navbar__brand-link mbr-brand mbr-brand--inline">
-                        <a class="mbr-brand__logo" href="http://mobirise.com"><img class="mbr-navbar__brand-img mbr-brand__img" alt="" src="assets/images/logo.png"></a>
-                        <span class="mbr-brand__name"><a class="mbr-brand__name text-white" href="http://mobirise.com">MOBIRISE</a></span>
-                    </span>
-                </div>
-                <div class="mbr-navbar__hamburger mbr-hamburger text-white"><span class="mbr-hamburger__line"></span></div>
-                <div class="mbr-navbar__column mbr-navbar__menu">
-                    <nav class="mbr-navbar__menu-box mbr-navbar__menu-box--inline-right">
-                        <div class="mbr-navbar__column"><ul class="mbr-navbar__items mbr-navbar__items--right mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active mbr-buttons--only-links"><li class="mbr-navbar__item"><a class="mbr-buttons__link btn text-white" href="http://mobirise.com">HOME</a></li><li class="mbr-navbar__item"><a class="mbr-buttons__link btn text-white" href="http://mobirise.com">ABOUT</a></li><li class="mbr-navbar__item"><a class="mbr-buttons__link btn text-white" href="http://mobirise.com">CONTACT</a></li></ul></div>
-                        
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<?php
+require_once './layout/header.php';
+if ($_GET && isset($_GET['id'])) {
+    $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+    if (empty($id)) {
+        header('Location:/project/showall/php');
+    }
+    $content = $defaultController->DB('content')->findBy(array('ctg_id' => $id));
+} else {
+    $offset = 0;
+    if (isset($_GET['offset'])) {
+        $offset = $_GET['offset'];
+    }
+    $content = $defaultController->paginate(
+            'content', $offset, 12, 'desc', 'id');
+    $count = $defaultController->DB('content')->query('select count(*) as c from content');
+}
+$content_category = $defaultController->findAll('contentcategory');
+?>
+<div class="clearfix"></div>
 
 <section class="mbr-section mbr-section--relative mbr-section--fixed-size mbr-parallax-background" id="testimonials1-12" style="background-image: url(assets/images/parallax-bg51900x1267-161.jpg);">
     <div>
-        
+
         <div class="mbr-section__container mbr-section__container--std-padding container">
             <div class="row">
+                <div class="col-lg-12" dir="rtl">
+                    <h2 style="letter-spacing: 0px">دسته بندی مقالات</h2>
+                    <?php foreach ($content_category as $ctg) { ?>
+                    <a href="/project/showall.php?id=<?php echo $ctg['id']; ?>" class="btn btn-info" style="border-radius: 0px;margin: 2px"><?php echo $ctg['title']; ?></a>
+                    <?php } ?>
+                    <br/>
+                    <hr/>
+                </div>
                 <div class="col-sm-12">
-                    <h2 class="mbr-section__header">WHAT OUR FANTASTIC USERS SAY</h2>
+                    <h2 class="mbr-section__header" style="letter-spacing: 0px;text-align: right">نمایش مقالات</h2>
                     <ul class="mbr-reviews mbr-reviews--wysiwyg row">
-                        <li class="mbr-reviews__item col-sm-6 col-md-4">
-                            <div class="mbr-reviews__text"><p class="mbr-reviews__p">“its really very amazing app that makes me finish html page in 3 minutes ( that's usually takes more than 1 hours at least from me if i did it from scratch). i hope to have very big library and plugins for this APP thanks again for your nice application”</p></div>
-                            <div class="mbr-reviews__author mbr-reviews__author--short">
-                                <div class="mbr-reviews__author-name">ABANOUB S.</div>
-                                <div class="mbr-reviews__author-bio">User</div>
-                            </div>
-                        </li><li class="mbr-reviews__item col-sm-6 col-md-4">
-                            <div class="mbr-reviews__text"><p class="mbr-reviews__p">“First of all hands off to you guys for your effort and nice, super tool. Good work mobirise team. We are expecting the new version soon with advance functionality with full bootstrap design. Great effort and super UI experience with easy drag &amp; drop with no time design bootstrap builder in present web design world.”</p></div>
-                            <div class="mbr-reviews__author mbr-reviews__author--short">
-                                <div class="mbr-reviews__author-name">SUFFIAN A.</div>
-                                <div class="mbr-reviews__author-bio">User</div>
-                            </div>
-                        </li><li class="mbr-reviews__item col-sm-6 col-md-4">
-                            <div class="mbr-reviews__text"><p class="mbr-reviews__p">“At first view, looks like a nice innovative tool, i like the great focus and time that was given to the responsive design, i also like the simple and clear drag and drop features. Give me more control over the object's properties and ill be using this tool for more serious projects. Regards.”</p></div>
-                            <div class="mbr-reviews__author mbr-reviews__author--short">
-                                <div class="mbr-reviews__author-name">JHOLLMAN C.</div>
-                                <div class="mbr-reviews__author-bio">User</div>
-                            </div>
-                        </li><li class="mbr-reviews__item col-sm-6 col-md-4">
-                            <div class="mbr-reviews__text"><p class="mbr-reviews__p">“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, voluptatibus, atque, tempore molestiae sed modi a ullam sint adipisci rerum vel praesentium voluptas deserunt veniam provident culpa sequi veritatis.”</p></div>
-                            <div class="mbr-reviews__author mbr-reviews__author--short">
-                                <div class="mbr-reviews__author-name">John Smith</div>
-                                <div class="mbr-reviews__author-bio">Developer</div>
-                            </div>
-                        </li><li class="mbr-reviews__item col-sm-6 col-md-4">
-                            <div class="mbr-reviews__text"><p class="mbr-reviews__p">“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, voluptatibus, atque, tempore molestiae sed modi a ullam sint adipisci rerum vel praesentium voluptas deserunt veniam provident culpa sequi veritatis.”</p></div>
-                            <div class="mbr-reviews__author mbr-reviews__author--short">
-                                <div class="mbr-reviews__author-name">John Smith</div>
-                                <div class="mbr-reviews__author-bio">Developer</div>
-                            </div>
-                        </li><li class="mbr-reviews__item col-sm-6 col-md-4">
-                            <div class="mbr-reviews__text"><p class="mbr-reviews__p">“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, voluptatibus, atque, tempore molestiae sed modi a ullam sint adipisci rerum vel praesentium voluptas deserunt veniam provident culpa sequi veritatis.”</p></div>
-                            <div class="mbr-reviews__author mbr-reviews__author--short">
-                                <div class="mbr-reviews__author-name">John Smith</div>
-                                <div class="mbr-reviews__author-bio">Developer</div>
-                            </div>
-                        </li><li class="mbr-reviews__item col-sm-6 col-md-4">
-                            <div class="mbr-reviews__text"><p class="mbr-reviews__p">“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, voluptatibus, atque, tempore molestiae sed modi a ullam sint adipisci rerum vel praesentium voluptas deserunt veniam provident culpa sequi veritatis.”</p></div>
-                            <div class="mbr-reviews__author mbr-reviews__author--short">
-                                <div class="mbr-reviews__author-name">John Smith</div>
-                                <div class="mbr-reviews__author-bio">Developer</div>
-                            </div>
-                        </li><li class="mbr-reviews__item col-sm-6 col-md-4">
-                            <div class="mbr-reviews__text"><p class="mbr-reviews__p">“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, voluptatibus, atque, tempore molestiae sed modi a ullam sint adipisci rerum vel praesentium voluptas deserunt veniam provident culpa sequi veritatis.”</p></div>
-                            <div class="mbr-reviews__author mbr-reviews__author--short">
-                                <div class="mbr-reviews__author-name">John Smith</div>
-                                <div class="mbr-reviews__author-bio">Developer</div>
-                            </div>
-                        </li><li class="mbr-reviews__item col-sm-6 col-md-4">
-                            <div class="mbr-reviews__text"><p class="mbr-reviews__p">“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, voluptatibus, atque, tempore molestiae sed modi a ullam sint adipisci rerum vel praesentium voluptas deserunt veniam provident culpa sequi veritatis.”</p></div>
-                            <div class="mbr-reviews__author mbr-reviews__author--short">
-                                <div class="mbr-reviews__author-name">John Smith</div>
-                                <div class="mbr-reviews__author-bio">Developer</div>
-                            </div>
-                        </li>
+                        <?php foreach ($content as $items) : ?>
+                            <li class="mbr-reviews__item col-sm-6 col-md-4">
+                                <a class="linkShow" href="showcontent.php?id=<?php echo $items['id']; ?>">    
+                                    <div class="mbr-reviews__text">
+                                        <h4 style="text-align: right;direction: rtl"><?php echo $items['title']; ?></h4>
+                                        <p class="mbr-reviews__p"><?php
+                                            $val = strip_tags($items['content']);
+                                            $val = substr($val, 0, 300);
+                                            echo $val;
+                                            ?>
+                                        </p>
+                                    </div>
+                                </a>
+                                <div class="mbr-reviews__author mbr-reviews__author--short">
+                                    <div class="mbr-reviews__author-name"><?php
+                                        $user = $defaultController->find('users', $items['user_id']);
+                                        if (!empty($user)) {
+                                            echo $user[0]['username'];
+                                        } else {
+                                            echo 'برنامه نویس';
+                                        }
+                                        ?></div>
+                                    <div class="mbr-reviews__author-bio">
+                                        <?php
+                                        if (!empty($user) && $user[0]['role'] == 'Admin') {
+                                            echo 'مدیریت';
+                                        } else {
+                                            echo 'کاربر';
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </li>
+
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             </div>
+            <?php if (empty($id)) { ?>
+                <div class="col-lg-12" style="text-align: center">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <?php if ($offset > 0): ?>
+                                <li>
+                                    <a href="?offset=<?php echo $offset - 10; ?>" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
+                            <?php
+                            $count = round($count[0]['c'] / 10, 0, PHP_ROUND_HALF_UP);
+                            for ($i = 1; $i <= $count; $i++) {
+                                ?>
+                                <li class="<?php if ($offset == $i * 10 - 10) echo 'active'; ?>"><a href="?offset=<?php echo $i * 10 - 10; ?>" ><?php echo $i ?></a></li>                                        
+                            <?php } ?>
+                            <li>
+                                <a href="?offset=<?php echo $offset + 10; ?>" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </section>
-  <script src="assets/jquery/jquery.min.js"></script>
-  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="assets/smooth-scroll/SmoothScroll.js"></script>
-  <script src="assets/jarallax/jarallax.js"></script>
-  <script src="assets/mobirise/js/script.js"></script>
-  
-  
-</body>
-</html>
+<style>
+    .mbr-reviews__text{
+        direction: rtl !important;
+        background-color: rgba(255,255,255,0.8) !important;
+    }
+    .mbr-reviews__text:hover{
+        background-color: rgba(255,255,255,1) !important;
+    }
+    .linkShow{
+        text-decoration:  none;
+    }
+    .linkShow:hover,.linkShow:active{
+        text-decoration: none;
+    }
+</style>
+<?php
+require_once './layout/footer.php';
+?>
