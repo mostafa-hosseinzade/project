@@ -48,6 +48,8 @@ require_once '../../Controller/LoginController.php';
                         <li class=""><a href="/project/Admin/views/post_response">Post Response<span class="sr-only">(current)</span></a></li>
                         <li class=""><a href="/project/Admin/views/content_category">Content Category<span class="sr-only">(current)</span></a></li>
                         <li class=""><a href="/project/Admin/views/content">Content<span class="sr-only">(current)</span></a></li>
+                        <li class=""><a href="/project/Admin/views/comment">Comment<span class="sr-only">(current)</span></a></li>
+                        <li class=""><a href="/project/Admin/views/contact">Contact<span class="sr-only">(current)</span></a></li>
 <!--                        <li><a href="#">Link</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
