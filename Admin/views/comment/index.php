@@ -35,6 +35,8 @@ $users = $defaulController->findAll('comment');
     <th>کامنت</th>
     <th>پاسخ</th>
     <th>کاربر</th>
+    <th>نام</th>
+    <th>ایمیل</th>
     <th>action</th>
 </thead>
 <tbody>
@@ -60,6 +62,8 @@ $users = $defaulController->findAll('comment');
                     }
                 }
                 ?></td>
+            <td><?php echo $value['name']; ?></td>
+            <td><?php echo $value['email']; ?></td>
             <td>
                 <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#myModal<?php echo $value['id']; ?>">edit</button>
                 <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModalDelete<?php echo $value['id']; ?>">delete</button>
@@ -138,6 +142,8 @@ $users = $defaulController->findAll('comment');
     <th>کامنت</th>
     <th>پاسخ</th>
     <th>کاربر</th>
+    <th>نام</th>
+    <th>ایمیل</th>
     <th>action</th>
 
 </tfoot>

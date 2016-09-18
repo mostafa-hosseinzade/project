@@ -1,6 +1,5 @@
 <?php
 require_once './layout/header.php';
-
 $content = $defaultController->DB('content')->paginate(0, 9, 'desc', 'visit');
 $post = $defaultController->DB('post')->paginate(0, 4, 'desc', 'id');
 ?>
@@ -58,11 +57,14 @@ $post = $defaultController->DB('post')->paginate(0, 4, 'desc', 'id');
                         <?php foreach ($content as $items) : ?>
                             <li class="mbr-reviews__item col-sm-6 col-md-4">
                                 <a class="linkShow" href="showcontent.php?id=<?php echo $items['id']; ?>">    
-                                    <div class="mbr-reviews__text"><p class="mbr-reviews__p"><?php
+                                    <div class="mbr-reviews__text">
+                                        <h4 style="text-align: right;direction: rtl"><?php echo $items['title']; ?></h4>
+                                        <p class="mbr-reviews__p"><?php
                                             $val = strip_tags($items['content']);
                                             $val = substr($val, 0, 300);
                                             echo $val;
-                                            ?></p>
+                                            ?>
+                                        </p>
                                     </div>
                                 </a>
                                 <div class="mbr-reviews__author mbr-reviews__author--short">

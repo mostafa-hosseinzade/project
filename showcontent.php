@@ -1,31 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <!-- Site made with Mobirise Website Builder v2.4.1, http://mobirise.com -->
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="Mobirise v2.4.1, mobirise.com">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
-  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/mobirise/css/style.css">
-  <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
-  
-  
-</head>
-<body>
-<section class="engine"><a rel="nofollow" href="http://mobirise.com">Mobirise website builder</a></section>
+<?php
+require_once './layout/header.php';
+if ($_GET && isset($_GET['id'])) {
+    $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+    if (empty($id)) {
+        header('Location : index.php');
+    }
+    $content = $defaultController->find('content', $id);
+} else {
+    header('Location : index.php');
+}
+$hotContent = $defaultController->DB('content')->paginate(0, 4, 'desc', 'visit');
+$comments = $defaultController->DB("comment")->findBy(array("content_id" => $id));
+?>
+<section class="engine"><a rel="nofollow" href="">Mobirise website builder</a></section>
 <section class="content-2 simple col-1 col-undefined mbr-parallax-background" id="content5-15" style="background-image: url(assets/images/parallax-bg51900x1267-163.jpg);">
     <div class="mbr-overlay" style="opacity: 0.6; background-color: rgb(40, 50, 78);"></div>
     <div class="container">
         <div class="row">
             <div>
-                <div class="thumbnail">
+                <div class="thumbnail" style="direction: rtl">
                     <div class="caption">
-                        <h3>EASY TO USE!</h3>
-                        <div><p>Make your own website in a few clicks! Mobirise helps you cut down development time by providing you with a flexible website editor with a drag and drop interface. MobiRise Website Builder creates responsive, retina and mobile friendly websites in a few clicks. Mobirise is one of the easiest website development tools available today. It also gives you the freedom to develop as many websites as you like given the fact that it is a desktop app.</p></div>
+                        <h3><?php echo $content[0]['title']; ?></h3>
+                        <div>
+                            <p>
+                                <?php echo $content[0]['content']; ?>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -33,60 +33,167 @@
     </div>
 </section>
 
-<section class="content-2 simple col-4" id="content4-17" style="background-color: rgb(255, 255, 255);">
-    
-    <div class="container">
-        <div class="row">
-            <div>
-                <div class="thumbnail">
-                    <div class="caption">
-                        <div>
-                            <h3>BOOTSTRAP 3</h3>
-                            <p>Bootstrap 3 has been noted as one of the most reliable and proven frameworks and Mobirise has been equipped to develop websites using this framework.</p>
-                        </div>
-                    </div>
+<section class="mbr-section mbr-section--relative mbr-section--fixed-size mbr-parallax-background" id="testimonials1-8" style="background-image: url(assets/images/parallax-bg51900x1267-151.jpg);">
+    <div>
+        <div class="mbr-overlay" style="opacity: 0.3; background-color: rgb(34, 34, 34);"></div>
+        <div class="mbr-section__container mbr-section__container--std-padding container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="mbr-section__header" style="letter-spacing: 0px">آخرین مقالات سایت</h2>
+                    <ul class="mbr-reviews mbr-reviews--wysiwyg row">
+                        <?php
+                        $i = 0;
+                        foreach ($hotContent as $items) {
+                            if ($items['id'] != $id) {
+                                $i++;
+                                if ($i <= 3) {
+                                    ?>
+                                    <li class="mbr-reviews__item col-sm-6 col-md-4">
+                                        <a class="linkShow" href="showcontent.php?id=<?php echo $items['id']; ?>">    
+                                            <div class="mbr-reviews__text">
+                                                <h4 style="text-align: right;direction: rtl"><?php echo $items['title']; ?></h4>
+                                                <p class="mbr-reviews__p"><?php
+                                                    $val = strip_tags($items['content']);
+                                                    $val = substr($val, 0, 300);
+                                                    echo $val;
+                                                    ?>
+                                                </p>
+                                            </div>
+                                        </a>
+                                        <div class="mbr-reviews__author mbr-reviews__author--short">
+                                            <div class="mbr-reviews__author-name"><?php
+                                                $user = $defaultController->find('users', $items['user_id']);
+                                                if (!empty($user)) {
+                                                    echo $user[0]['username'];
+                                                } else {
+                                                    echo 'برنامه نویس';
+                                                }
+                                                ?></div>
+                                            <div class="mbr-reviews__author-bio">
+                                                <?php
+                                                if (!empty($user) && $user[0]['role'] == 'Admin') {
+                                                    echo 'مدیریت';
+                                                } else {
+                                                    echo 'کاربر';
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <?php
+                                }
+                            }
+                        }
+                        ?>
+                    </ul>
                 </div>
             </div>
-            <div>
-                <div class="thumbnail">
-                    <div class="caption">
-                        <div>
-                            <h3>RESPONSIVE</h3>
-                            <p>One of Bootstrap 3's big points is responsiveness and Mobirise makes effective use of this by generating highly responsive website for you.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="thumbnail">
-                    <div class="caption">
-                        <div>
-                            <h3>WEB FONTS</h3>
-                            <p>Google has a highly exhaustive list of fonts compiled into its web font platform and Mobirise makes it easy for you to use them on your website easily and freely.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="thumbnail">
-                    <div class="caption">
-                        <div>
-                            <h3>UNLIMITED WEBSITES</h3>
-                            <p>Mobirise gives you the freedom to develop as many websites as you like given the fact that it is a desktop app.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
         </div>
     </div>
 </section>
-  <script src="assets/jquery/jquery.min.js"></script>
-  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="assets/smooth-scroll/SmoothScroll.js"></script>
-  <script src="assets/jarallax/jarallax.js"></script>
-  <script src="assets/mobirise/js/script.js"></script>
-  
-  
-</body>
-</html>
+
+
+
+<section class="mbr-section mbr-section--relative mbr-section--fixed-size" id="form1-13" style="background-color: rgb(204, 204, 204);">
+
+    <div class="mbr-section__container mbr-section__container--std-padding container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <div class="mbr-header mbr-header--center mbr-header--std-padding">
+                            <h2 class="mbr-header__text" style="letter-spacing: 0px">ارسال نظر شما</h2>
+                        </div>
+                        <?php
+                        if ($_POST && isset($_POST['comment'])) {
+                            if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['comment'])) {
+                                $msg = "لطفا اطلاعات را با دقت وارد نمائید";
+                            } else {
+                                $data = array('content_id' => $id, "name" => $_POST['name'], 'email' => $_POST['email'], 'comment' => $_POST['comment']);
+                                $result = $defaultController->insert('comment', $data);
+                                if ($result == true) {
+                                    $msg = "نظر شما ثبت شد";
+                                } else {
+                                    $msg = "مشکل در ثبت اطلاعات لطقا بعدا دویاره تلاش کنید";
+                                }
+                            }
+                        }
+                        ?>
+                        <form method="post" style="direction: rtl">
+                            <?php if (isset($msg) && !empty($msg)): ?>
+                                <div class="alert">
+                                    <?php echo $msg; ?>
+                                    <button type="button" class="close" style="background-color: #18d596" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            <?php endif; ?>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="name" required="true" placeholder="نام*">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" name="email" required="true" placeholder="ایمیل*">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" required="true" name="comment" placeholder="پیام شما" rows="7"></textarea>
+                            </div>
+                            <div class="mbr-buttons mbr-buttons--right"><button type="submit" class="mbr-buttons__btn btn btn-lg btn-danger">ثبت نظر</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="msgbox-1" id="msg-box1-13" style="background-color: rgb(60, 60, 60);">
+
+
+    <div class="container">
+        <h2 style="letter-spacing: 0px">نظر های کاربران</h2>
+        <div class="row">
+
+            <?php foreach ($comments as $c): ?>
+                <div class="col-sm-12" style="background-color: rgba(255,255,255,0.2);margin-top: 5px;margin-bottom: 5px;">
+                    <h3 style="letter-spacing: 0px;direction: rtl"><?php echo $c['name'] ?></h3>
+                    <p><?php echo $c['comment'] ?></p>
+                    <?php if (!empty($c['response'])) { ?>
+                        <div class="container" style="background-color: rgba(255,255,255,0.2);margin-bottom: 5px;direction: rtl;padding-right:  5px">
+                            <h3 style="letter-spacing: 0">
+                                <?php
+                                if (!empty($c['user_id'])) {
+                                    $user = $defaultController->find('users', $c['user_id']);
+                                    if (!empty($user)) {
+                                        echo $user[0]['username'];
+                                    }
+                                }
+                                ?>
+                            </h3>
+                            <p> <?php echo $c['response']; ?></p>
+                        </div>
+                    <?php } ?> 
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+<style>
+    .mbr-reviews__text{
+        direction: rtl;
+        background-color: rgba(255,255,255,0.8) !important;
+    }
+    .mbr-reviews__text:hover{
+        background-color: rgba(255,255,255,1) !important;
+    }
+    .linkShow{
+        text-decoration:  none;
+    }
+    .linkShow:hover,.linkShow:active{
+        text-decoration: none;
+    }
+</style>
+
+<?php
+require_once './layout/footer.php';
+?>
+

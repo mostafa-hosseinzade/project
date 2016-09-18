@@ -38,7 +38,15 @@ $defaultController = new DefaultController();
                 <div class="mbr-navbar__hamburger mbr-hamburger text-white"><span class="mbr-hamburger__line"></span></div>
                 <div class="mbr-navbar__column mbr-navbar__menu">
                     <nav class="mbr-navbar__menu-box mbr-navbar__menu-box--inline-right">
-                        <div class="mbr-navbar__column"><ul class="mbr-navbar__items mbr-navbar__items--right mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active mbr-buttons--only-links"><li class="mbr-navbar__item"><a class="mbr-buttons__link btn text-white" href="http://mobirise.com">HOME</a></li><li class="mbr-navbar__item"><a class="mbr-buttons__link btn text-white" href="http://mobirise.com">ABOUT</a></li><li class="mbr-navbar__item"><a class="mbr-buttons__link btn text-white" href="http://mobirise.com">CONTACT</a></li></ul></div>
+                        <div class="mbr-navbar__column">
+                            <ul class="mbr-navbar__items mbr-navbar__items--right mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active mbr-buttons--only-links">
+                                <li class="mbr-navbar__item">
+                                    <a class="mbr-buttons__link btn text-white" href="/project/showall.php">مقالات</a></li>
+                                <li class="mbr-navbar__item"><a class="mbr-buttons__link btn text-white" href="/project/posts.php">بحث و گفتگو</a></li>
+                                <li class="mbr-navbar__item">
+                                    <a class="mbr-buttons__link btn text-white" href="/project">صفحه اصلی</a></li>
+                            </ul>
+                        </div>
                         
                     </nav>
                 </div>
