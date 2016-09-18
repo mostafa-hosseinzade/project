@@ -2,6 +2,7 @@
 require_once '../../Controller/DefaultController.php';
 require_once '../../lib/DB.php';
 require_once '../../lib/DBTable.php';
+require_once '../../Controller/LoginController.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,6 +43,8 @@ require_once '../../lib/DBTable.php';
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="/project/Admin/views/users">Users <span class="sr-only">(current)</span></a></li>
+                        <li class=""><a href="/project/Admin/views/post_category">Post Category <span class="sr-only">(current)</span></a></li>
+                        <li class=""><a href="/project/Admin/views/post">Post <span class="sr-only">(current)</span></a></li>
 <!--                        <li><a href="#">Link</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>

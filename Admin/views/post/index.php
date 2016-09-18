@@ -6,21 +6,19 @@ if ($_POST) {
     if (isset($_POST['edit'])) {
         $data = $_POST;
         unset($data['edit']);
-        $result = $defaulController->update('users', $data);
+        $result = $defaulController->update('post', $data);
         $msg = "اطلاعات با موفقیت ویرایش شد";
     } else if (isset($_POST['delete']) && !empty($_POST['id'])) {
         $id = $_POST['id'];
-        $defaulController->remove('users', $id);
+        $defaulController->remove('post', $id);
         $msg = "اطلاعات با موفقیت حذف شد";
     } else {
         $data = $_POST;
-        $createPassword  = new LoginController();
-        $password = $createPassword->SaltPassword($data);
-        $data['password'] = $password['password'];
-        $defaulController->insert('users', $data);
+        $defaulController->insert('post', $data);
+        $msg = "اطلاعات با موفقیت اضافه شد";
     }
 }
-$users = $defaulController->findAll('users');
+$users = $defaulController->findAll('post');
 ?>
 <?php if (isset($msg) && !empty($msg)): ?>
     <div class="alert">
@@ -34,11 +32,10 @@ $users = $defaulController->findAll('users');
 <table class="display" id="test">
     <thead>
     <th>Id</th>
-    <th>name</th>
-    <th>Username</th>
-    <th>Email</th>
-    <th>Address</th>
-    <th>Phone</th>
+    <th>title</th>
+    <th>describtion</th>
+    <th>دسته بندی</th>
+    <th>کاربر</th>
     <th>وضعیت</th>
     <th>action</th>
 </thead>
@@ -46,11 +43,27 @@ $users = $defaulController->findAll('users');
     <?php foreach ($users as $value) { ?>
         <tr>
             <td><?php echo $value['id']; ?></td>
-            <td><?php echo $value['name']; ?></td>
-            <td><?php echo $value['username']; ?></td>
-            <td><?php echo $value['email']; ?></td>
-            <td><?php echo $value['address']; ?></td>
-            <td><?php echo $value['phone']; ?></td>
+            <td><?php echo $value['title']; ?></td>
+            <td><?php echo $value['describtion']; ?></td>
+
+            <td><?php
+                if (!empty($value['post_category_id'])) {
+                    $user = $defaulController->find('post_category', $value['post_category_id']);
+                    if (!empty($user)) {
+                        echo $user[0]['title'];
+                    }
+                }
+                ?>
+            </td>
+
+            <td><?php
+                if (!empty($value['user_id'])) {
+                    $user = $defaulController->find('users', $value['user_id']);
+                    if (!empty($user)) {
+                        echo $user[0]['username'];
+                    }
+                }
+                ?></td>
             <td>
                 <?php if ($value['enable'] == true): ?>
                     <span style="color: green">فعال</span>
@@ -101,29 +114,34 @@ $users = $defaulController->findAll('users');
                         <div class="col-lg-12">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                    <label>Name : </label>
-                                    <input type="text" class="form-control" name="name" value="<?php echo $value['name']; ?>" />
+                                    <label>Title : </label>
+                                    <input type="text" class="form-control" name="title" value="<?php echo $value['title']; ?>" />
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                    <label>User Name : </label>
-                                    <input type="text"  class="form-control" name="username" value="<?php echo $value['username']; ?>" />
+                                    <label>Describtion : </label>
+                                    <textarea class="form-control" name="describtion" ><?php echo $value['describtion']; ?></textarea>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                    <label>Email : </label>
-                                    <input type="text" name="email" class="form-control" value="<?php echo $value['email']; ?>" />
+                                    <label> دسته بندی: </label>
+                                    <select name="post_category_id" class="form-control">
+                                        <?php
+                                        $post_category = $defaulController->findAll('post_category');
+                                        foreach ($post_category as $items) :
+                                            ?>
+                                            <option value="<?php echo $items['id']; ?>" <?php if ($value['id'] == $items['id']) echo 'selected'; ?>><?php echo $items['title']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                    <label>Password : </label>
-                                    <input type="text" class="form-control" name="password" value="" />
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                    <label>Address : </label>
-                                    <input type="text" class="form-control" name="address" value="<?php echo $value['address']; ?>" />
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                    <label>Phone : </label>
-                                    <input type="text" class="form-control" name="phone" value="<?php echo $value['phone']; ?>" />
+                                    <label> کاربر سازنده : </label>
+                                    <select name="user_id" class="form-control">
+                                        <?php
+                                        $users = $defaulController->findAll('users');
+                                        foreach ($users as $items) :
+                                            ?>
+                                            <option value="<?php echo $items['id']; ?>" <?php if ($value['id'] == $items['id']) echo 'selected'; ?>><?php echo $items['username']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
                                     <label>وضعیت : </label>
@@ -148,11 +166,10 @@ $users = $defaulController->findAll('users');
 </tbody>
 <tfoot>
 <th>Id</th>
-<th>name</th>
-<th>Username</th>
-<th>Email</th>
-<th>Address</th>
-<th>Phone</th>
+<th>title</th>
+<th>describtion</th>
+<th>دسته بندی</th>
+<th>کاربر</th>
 <th>وضعیت</th>
 <th>action</th>
 
@@ -172,29 +189,34 @@ $users = $defaulController->findAll('users');
                     <div class="col-lg-12">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                <label>Name : </label>
-                                <input type="text" class="form-control" name="name" />
+                                <label>Title : </label>
+                                <input type="text" class="form-control" name="title" placeholder="Title" />
                             </div>
                             <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                <label>User Name : </label>
-                                <input type="text"  required="true" class="form-control" name="username" />
+                                <label>Describtion : </label>
+                                <textarea class="form-control" name="describtion" placeholder="Describtion" ></textarea>
                             </div>
                             <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                <label>Email : </label>
-                                <input type="email" required="true" name="email" class="form-control" />
+                                <label> دسته بندی: </label>
+                                <select name="post_category_id" class="form-control">
+                                    <?php
+                                    $post_category = $defaulController->findAll('post_category');
+                                    foreach ($post_category as $items) :
+                                        ?>
+                                        <option value="<?php echo $items['id']; ?>" ><?php echo $items['title']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                             <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                <label>Password : </label>
-                                <input type="text" required="true" class="form-control" name="password" value="" />
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                <label>Address : </label>
-                                <input type="text" class="form-control" name="address"  />
-                            </div>
-
-                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                <label>Phone : </label>
-                                <input type="text" class="form-control" name="phone"  />
+                                <label> کاربر سازنده : </label>
+                                <select name="user_id" class="form-control">
+                                    <?php
+                                    $users = $defaulController->findAll('users');
+                                    foreach ($users as $items) :
+                                        ?>
+                                        <option value="<?php echo $items['id']; ?>" ><?php echo $items['username']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                             <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
                                 <label>وضعیت : </label>

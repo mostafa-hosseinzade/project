@@ -29,7 +29,7 @@ class LoginController {
         return $user;
     }
 
-    private function SaltPassword(array $data) {
+    public function SaltPassword(array $data) {
         $this->username = $data['username'];
         $this->password = $data['password'];
         $this->email = $data['email'];
