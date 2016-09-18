@@ -1,8 +1,6 @@
 <?php
-
 namespace lib;
-
-use lib\Base\DataBase;
+use lib\DataBase;
 
 /**
  * Description of DBTable

@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 18, 2016 at 01:10 AM
--- Server version: 5.5.49-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.17
+-- Generation Time: Sep 18, 2016 at 11:12 AM
+-- Server version: 5.5.47-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -227,7 +227,20 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `role`, `enable`, `name`, `phone`, `address`, `pic`, `created_at`, `updated_at`) VALUES
+(1, 'Mr.Mostafa', '+mEahQpgdW1x/H58QQz6P3dk8Jfsew/gwPQAo6xSlDE=', 'hosseinzade2731@gmail.com', NULL, 1, 'Mostafa', NULL, NULL, NULL, NULL, NULL),
+(2, 'Test', '', 'TEst', 'User', 0, 'test', '2154', 'Test Address', NULL, NULL, NULL),
+(3, 'asd', '', 'asd', 'asd', 1, 'asdasd', 'sad', 'Test Address New', NULL, NULL, NULL),
+(4, 'Test', '', 'TEst', 'User', 1, 'test', '2154', '', NULL, NULL, NULL),
+(5, 'asd', 'sad', 'asd', 'asd', 0, 'asdasd', 'sad', 'sadsad', NULL, NULL, NULL),
+(6, 'asdasd', 'sadsad', 'sad', 'asd', 0, 'sad', NULL, 'asd', 'asd', NULL, NULL),
+(7, 'asd', 'asd', 'sad', NULL, 0, NULL, NULL, 'asd', 'asd', NULL, NULL);
 
 --
 -- Constraints for dumped tables

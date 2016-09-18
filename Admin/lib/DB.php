@@ -1,8 +1,7 @@
 <?php
 
-namespace lib\Base;
+namespace lib;
 
-use lib\DBModel;
 use lib\DBTable;
 
 /**
@@ -12,12 +11,12 @@ use lib\DBTable;
  */
 class DataBase {
 
-    private $DB_HOST = DB_HOST;
-    private $DB_USERNAME = DB_USER_NAME;
-    private $DB_PASSWORD = DB_USER_PASSWORD;
-    private $DB_TYPE = DB_TYPE;
-    private $DB_NAME = DB_NAME;
-    private $DB_PORT = DB_PORT;
+    private $DB_HOST = 'localhost';
+    private $DB_USERNAME = 'root';
+    private $DB_PASSWORD = 'root';
+    private $DB_TYPE = 'mysql';
+    private $DB_NAME = 'project';
+    private $DB_PORT = '3306';
     protected $pdo;
 
     /**
@@ -44,14 +43,6 @@ class DataBase {
      */
     public function CloseLink() {
         $this->pdo = NULL;
-    }
-
-    /**
-     * @param string $model
-     * @return \lib\DBModel
-     */
-    public function getModel($model) {
-        return new DBModel($model);
     }
 
     /**
